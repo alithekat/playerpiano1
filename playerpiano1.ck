@@ -2,6 +2,7 @@
 //Date: April 12, 2017
 
 //MIDI Player Piano 1
+//now on GitHub!
 
 //set up MIDI out
 MidiOut mout;

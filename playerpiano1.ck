@@ -120,8 +120,8 @@ fun void playNotes (int scaleDegree, int note, int volume)
     }
 }
 
-Shred @ improvShred;
-improvShred.id();
+Shred shreds[0];
+
 //MAIN PROGRAM
 while(true)
 {
@@ -135,16 +135,20 @@ while(true)
         {
             //map midi note name to scale degree
             mapToScale(msgIn.data2) => int scaleDegree;
-            <<<"scale degree = ", scaleDegree>>>;    
-            spork ~ playNotes (scaleDegree, msgIn.data2, msgIn.data3) @=> improvShred ; 
+            <<<"scale degree = ", scaleDegree>>>;
+            //map midi note to a string (to identify the child shred)
+            msgIn.data2 + "" => string midiNoteString;
+            spork ~ playNotes (scaleDegree, msgIn.data2, msgIn.data3) @=> shreds[midiNoteString] ; 
         }
         else if (msgIn.data1 == 144 && msgIn.data3 == 0)
         {
             <<<"note released">>>;
-            if(improvShred != null)
+            //map midi note to a string (to identify the child shred)
+            msgIn.data2 + "" => string midiNoteString;
+            if(shreds[midiNoteString] != null)
             {
-                Machine.remove(improvShred.id());
-                null @=> improvShred;
+                Machine.remove(shreds[midiNoteString].id());
+                null @=> shreds[midiNoteString];
             }
         }
         else

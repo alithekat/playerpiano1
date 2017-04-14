@@ -27,7 +27,7 @@ if (!mout.open(portOut))
 } 
 
 //set pulse
-.2::second => dur pulse;
+.4::second => dur pulse;
 
 //map midi notes to scale degrees (c major, starting at middle c)
 fun int mapToScale (int midiNote)
@@ -156,5 +156,4 @@ while(true)
             continue;
         }
     }
-    pulse => now;
 }
